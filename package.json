@@ -1,0 +1,14 @@
+{
+  "name": "gregory-wishes",
+  "version": "1.0.0",
+  "description": "For Grzegórz",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "DH",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
