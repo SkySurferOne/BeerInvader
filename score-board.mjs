@@ -4,6 +4,9 @@ export function ScoreBoard() {
     this.addPoint = function() {
         score++;
     }
+    this.addPointCustom = function(points) {
+        score += points;
+    }
     this.getScore = function() {
         return score;
     }

@@ -7,7 +7,11 @@ export function Bottle(convas, ctx) {
     let h = 20;
     let step = 2;
     let destroy = false; 
+    let points = 1;
 
+    this.getPoints = function() {
+        return points;
+    }
     this.getX = function() {
         return x;
     }

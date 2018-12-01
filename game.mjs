@@ -1,6 +1,7 @@
 import { Player } from "./player.mjs";
 import { Bottle } from "./bottle.mjs";
 import { Bullet } from "./bullet.mjs";
+import { ScoreBoard } from "./score-board.mjs";
 
 export function Game(canvas, ctx) {
     let player;
@@ -15,6 +16,7 @@ export function Game(canvas, ctx) {
     let shotInterval = 500;
     let prevShotTimestamp = null;
     let runGame = true;
+    let scoreBoard = new ScoreBoard();
 
     let checkCollisions = function() {
         let bullets = drawables.filter(d => d instanceof Bullet);
@@ -33,7 +35,8 @@ export function Game(canvas, ctx) {
             bullets.forEach(bu => {
                 if (bu.collide(b)) {
                     b.destroyObject();
-                    // add point
+                    scoreBoard.addPointCustom(b.getPoints());
+                    console.log('Score: ', scoreBoard.getScore());
                 }
             });
         });
