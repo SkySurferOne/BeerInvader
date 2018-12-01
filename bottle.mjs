@@ -30,8 +30,8 @@ export function Bottle(convas, ctx) {
         destroy = true;
     }
     this.update = function() {
-        if (y + 1 < convas.height + h) {
-            y += 1;
+        if (y + h + step < convas.height) {
+            y += step;
         } else {
             destroy = true;
         }
