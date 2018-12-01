@@ -1,3 +1,5 @@
+import { checkCollision } from "./utils.mjs";
+
 export function Bullet(x, y, canvas, ctx) {
     let w = 10;
     let h = 10;
@@ -6,6 +8,9 @@ export function Bullet(x, y, canvas, ctx) {
     let step = 3;
     let destroy = false;
     
+    this.collide = function (collidable) {
+        return checkCollision(collidable, this);
+    }
     this.getX = function() {
         return shotX;
     }
@@ -27,6 +32,9 @@ export function Bullet(x, y, canvas, ctx) {
     }
     this.canDestroy = function () {
         return destroy;
+    }
+    this.destroyObject = function() {
+        destroy = true;
     }
     this.draw = function() {
         ctx.fillStyle = "red";

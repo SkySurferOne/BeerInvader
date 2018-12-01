@@ -26,6 +26,9 @@ export function Bottle(convas, ctx) {
     this.canDestroy = function() {
         return destroy;
     }
+    this.destroyObject = function() {
+        destroy = true;
+    }
     this.update = function() {
         if (y + 1 < convas.height + h) {
             y += 1;

@@ -14,10 +14,29 @@ export function Game(canvas, ctx) {
     let keyMap = {};
     let shotInterval = 500;
     let prevShotTimestamp = null;
+    let runGame = true;
 
     let checkCollisions = function() {
-        let bullets = drawables.map(d => d instanceof Bullet);
-        let bottles = drawables.map(d => d instanceof Bottle);
+        let bullets = drawables.filter(d => d instanceof Bullet);
+        let bottles = drawables.filter(d => d instanceof Bottle);
+        bottles.forEach(b => {
+            if (player.collide(b)) {
+                if(player.decreaseLifes()) {
+                    console.log('Lifes ', player.getLifes());
+                    b.destroyObject();
+                } else {
+                    console.log('You are dead!');
+                    runGame = false;
+                }
+            }
+
+            bullets.forEach(bu => {
+                if (bu.collide(b)) {
+                    b.destroyObject();
+                    // add point
+                }
+            });
+        });
     }
     let cleanDrawables = function() {
         drawables = drawables.filter(d => !d.canDestroy());
@@ -58,8 +77,13 @@ export function Game(canvas, ctx) {
         clearBg();
         drawables.forEach(d => d.update());
         drawables.forEach(d => d.draw());
+        checkCollisions();
         cleanDrawables();
-        window.requestAnimationFrame(loop);
+        if (runGame) {
+            window.requestAnimationFrame(loop);
+        } else {
+            console.log('Game over');
+        }
     }
     let clearBg = function() {
         ctx.fillStyle = "black";
@@ -75,7 +99,6 @@ export function Game(canvas, ctx) {
         } 
         
         if (keyMap['32']) {
-            console.log(drawables);
             if (!prevShotTimestamp) {
                 prevShotTimestamp = timestamp;
                 drawables.push(player.shot());

@@ -1,4 +1,5 @@
 import { Bullet } from "./bullet.mjs";
+import { checkCollision } from "./utils.mjs";
 
 export function Player(w, h, canvas, ctx) {
     let x = (canvas.width / 2) - (w / 2);
@@ -8,6 +9,23 @@ export function Player(w, h, canvas, ctx) {
     let bullets = []; 
     let lifes = 3;       
   
+    this.getLifes = function() {
+        return lifes;
+    }
+    this.decreaseLifes = function() {
+        if (lifes > 0) {
+            lifes--;
+        }
+
+        if (lifes > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    this.collide = function(collidable) {
+        return checkCollision(collidable, this);
+    }
     this.getX = function() {
         return x;
     }
@@ -24,7 +42,7 @@ export function Player(w, h, canvas, ctx) {
         return new Bullet(x + w / 2, y, canvas, ctx);
     }
     this.moveRight = function() {
-        if (x + step < canvas.width + w) {
+        if (x + step + w < canvas.width) {
             x+=step;
         }
     }
