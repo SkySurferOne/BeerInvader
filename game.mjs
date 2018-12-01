@@ -20,7 +20,7 @@ export function Game(canvas, ctx) {
         let bullets = drawables.filter(d => d instanceof Bullet);
         let bottles = drawables.filter(d => d instanceof Bottle);
         bottles.forEach(b => {
-            if (player.collide(b)) {
+            if (!b.canDestroy() && player.collide(b)) {
                 if(player.decreaseLifes()) {
                     console.log('Lifes ', player.getLifes());
                     b.destroyObject();
