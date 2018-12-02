@@ -1,63 +1,59 @@
-import { Bullet } from "./bullet.mjs";
-import { checkCollision } from "./utils.mjs";
+import {Bullet} from "./bullet.mjs";
+import {checkCollision} from "./utils.mjs";
 
-export function Player(w, h, canvas, ctx) {
+export function Player(canvas, ctx, playerImg, bulletImg) {
+    let w = 30;
+    let h = 70;
     let x = (canvas.width / 2) - (w / 2);
     let y = canvas.height - h;
-    let step = 5;
+    let step = 4;
     let destroy = false;
-    let bullets = []; 
-    let lifes = 3;       
-  
-    this.getLifes = function() {
+    let lifes = 3;
+
+    this.getLifes = function () {
         return lifes;
-    }
-    this.decreaseLifes = function() {
+    };
+    this.decreaseLifes = function () {
         if (lifes > 0) {
             lifes--;
         }
 
-        if (lifes > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    this.collide = function(collidable) {
+        return lifes > 0;
+    };
+    this.collide = function (collidable) {
         return checkCollision(collidable, this);
-    }
-    this.getX = function() {
+    };
+    this.getX = function () {
         return x;
-    }
-    this.getY = function() {
+    };
+    this.getY = function () {
         return y;
-    }
-    this.getWidth = function() {
+    };
+    this.getWidth = function () {
         return w;
-    }
-    this.getHeight = function() {
+    };
+    this.getHeight = function () {
         return h;
-    }
-    this.shot = function() {
-        return new Bullet(x + w / 2, y, canvas, ctx);
-    }
-    this.moveRight = function() {
+    };
+    this.shot = function () {
+        return new Bullet(x + w / 2, y, canvas, ctx, bulletImg);
+    };
+    this.moveRight = function () {
         if (x + step + w < canvas.width) {
-            x+=step;
+            x += step;
         }
-    }
-    this.moveLeft = function() {
+    };
+    this.moveLeft = function () {
         if (x - step > 0) {
-            x-=step;
+            x -= step;
         }
-    }
-    this.canDestroy = function() {
+    };
+    this.canDestroy = function () {
         return destroy;
-    }
-    this.update = function() {
-    }
-    this.draw = function() {
-        ctx.fillStyle = "white";
-        ctx.fillRect(x, y, w, h);
-    }
+    };
+    this.update = function () {
+    };
+    this.draw = function () {
+        ctx.drawImage(playerImg, x, y, w, h);
+    };
 } 

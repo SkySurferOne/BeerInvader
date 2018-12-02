@@ -3,7 +3,7 @@ import { Bottle } from "./bottle.mjs";
 import { Bullet } from "./bullet.mjs";
 import { ScoreBoard } from "./score-board.mjs";
 
-export function Game(canvas, ctx) {
+export function Game(canvas, ctx, images) {
     let player;
     let drawables = [];
     let obstacleInterval = 2000;
@@ -16,7 +16,7 @@ export function Game(canvas, ctx) {
     let shotInterval = 500;
     let prevShotTimestamp = null;
     let runGame = true;
-    let scoreBoard = new ScoreBoard();
+    let scoreBoard = new ScoreBoard(canvas, ctx);
 
     let checkCollisions = function() {
         let bullets = drawables.filter(d => d instanceof Bullet);
@@ -25,6 +25,7 @@ export function Game(canvas, ctx) {
             if (!b.canDestroy() && player.collide(b)) {
                 if(player.decreaseLifes()) {
                     console.log('Lifes ', player.getLifes());
+                    scoreBoard.updateLifes(player.getLifes());
                     b.destroyObject();
                 } else {
                     console.log('You are dead!');
@@ -40,15 +41,15 @@ export function Game(canvas, ctx) {
                 }
             });
         });
-    }
+    };
     let cleanDrawables = function() {
         drawables = drawables.filter(d => !d.canDestroy());
-    }
+    };
     let createObstacles = function() {
         for (let i = 0; i<obastacleNum; i++) {
-            drawables.push(new Bottle(canvas, ctx));
+            drawables.push(new Bottle(canvas, ctx, images['bottle'].img));
         }
-    }
+    };
     let checkObstaclesInterval = function(timestamp) {
         if (!prevObstacleTimestamp) {
             prevObstacleTimestamp = timestamp;
@@ -59,7 +60,7 @@ export function Game(canvas, ctx) {
                 prevObstacleTimestamp = timestamp;
             }
         }
-    }
+    };
     let checkDiffucultyInterval = function(timestamp) {
         if (!prevDiffTimestamp) {
             prevDiffTimestamp = timestamp;
@@ -72,7 +73,7 @@ export function Game(canvas, ctx) {
                 prevDiffTimestamp = timestamp;
             }
         }
-    }
+    };
     let loop = function(timestamp) {
         handleKeyActions(timestamp);
         checkDiffucultyInterval(timestamp);
@@ -87,11 +88,11 @@ export function Game(canvas, ctx) {
         } else {
             console.log('Game over');
         }
-    }
+    };
     let clearBg = function() {
         ctx.fillStyle = "black";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-    }
+    };
     let handleKeyActions = function(timestamp) {
         if (keyMap['37']) {
             // left arrow
@@ -113,21 +114,22 @@ export function Game(canvas, ctx) {
                 }
             }
         }
-    }
+    };
     let checkKey = function(e) {
         e = e || window.event;
-        keyMap[e.keyCode] = e.type == 'keydown';
-    }
+        keyMap[e.keyCode] = e.type === 'keydown';
+    };
     let init = function () {
         canvas.width = window.innerWidth * 0.6;
         canvas.height = window.innerHeight;
         drawables = [];
-        player = new Player(20, 50, canvas, ctx);
+        player = new Player(canvas, ctx, images['player'].img, images['bullet'].img);
         drawables.push(player);
+        drawables.push(scoreBoard);
         document.onkeydown = document.onkeyup = checkKey;
-    }
+    };
     this.run = function() {
         init();
         loop();    
-    }
+    };
 }
