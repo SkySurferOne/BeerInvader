@@ -4,15 +4,15 @@ export function getRndInteger(min, max) {
 
 export function checkCollision(c1, c2) {
     let points = [
-        [c1.getX(), c1.getY()+c1.getHeight()], 
-        [c1.getX()+c1.getWidth()/2, c1.getY()+c1.getHeight()],
-        [c1.getX()+c1.getWidth(), c1.getY()+c1.getHeight()]
+        [c1.x, c1.y+c1.height], 
+        [c1.x+c1.width/2, c1.y+c1.height],
+        [c1.x+c1.width, c1.y+c1.height]
     ];
 
     for(let i=0; i<points.length; i++) {
         let [x, y] = points[i];
-        if ((x >= c2.getX() && x <= c2.getX() + c2.getWidth()) &&
-            (y >= c2.getY() && y <= c2.getY() + c2.getHeight())) {
+        if ((x >= c2.x && x <= c2.x + c2.width) &&
+            (y >= c2.y && y <= c2.y + c2.height)) {
             return true;
         }
     }

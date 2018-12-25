@@ -2,6 +2,7 @@ import { Player } from "./player.mjs";
 import { Bottle } from "./bottle.mjs";
 import { Bullet } from "./bullet.mjs";
 import { ScoreBoard } from "./score-board.mjs";
+import { StrongBottle } from "./strongBottle.mjs";
 
 export function Game(canvas, ctx, images) {
     let player;
@@ -24,8 +25,8 @@ export function Game(canvas, ctx, images) {
         bottles.forEach(b => {
             if (!b.canDestroy() && player.collide(b)) {
                 if(player.decreaseLifes()) {
-                    console.log('Lifes ', player.getLifes());
-                    scoreBoard.updateLifes(player.getLifes());
+                    console.log('Lifes ', player.lifes);
+                    scoreBoard.updateLifes(player.lifes);
                     b.destroyObject();
                 } else {
                     console.log('You are dead!');
@@ -36,8 +37,8 @@ export function Game(canvas, ctx, images) {
             bullets.forEach(bu => {
                 if (bu.collide(b)) {
                     b.destroyObject();
-                    scoreBoard.addPointCustom(b.getPoints());
-                    console.log('Score: ', scoreBoard.getScore());
+                    scoreBoard.addPointCustom(b.points);
+                    console.log('Score: ', scoreBoard.score);
                 }
             });
         });
@@ -48,6 +49,9 @@ export function Game(canvas, ctx, images) {
     let createObstacles = function() {
         for (let i = 0; i<obastacleNum; i++) {
             drawables.push(new Bottle(canvas, ctx, images['bottle'].img));
+        }
+        if (Math.random() >= 0.5) {
+            drawables.push(new StrongBottle(canvas, ctx, images['strong_bottle'].img));
         }
     };
     let checkObstaclesInterval = function(timestamp) {

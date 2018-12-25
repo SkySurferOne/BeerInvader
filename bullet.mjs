@@ -1,42 +1,50 @@
 import {checkCollision} from "./utils.mjs";
 
-export function Bullet(x, y, canvas, ctx, bulletImg) {
-    let w = 15;
-    let h = 17;
-    let shotY = y;
-    let shotX = x - w / 2;
-    let step = 3;
-    let destroy = false;
+export class Bullet {
+    
+    constructor(x, y, canvas, ctx, bulletImg) {
+        this._x = x;
+        this._y = y;
+        this._canvas = canvas;
+        this._ctx =ctx;
+        this._bulletImg = bulletImg;
+        this._w = 15;
+        this._h = 17;
+        this._shotY = this._y;
+        this._shotX = this._x - this._w / 2;
+        this._step = 3;
+        this._destroy = false;
+    }
 
-    this.collide = function (collidable) {
+    collide(collidable) {
         return checkCollision(collidable, this);
-    };
-    this.getX = function () {
-        return shotX;
-    };
-    this.getY = function () {
-        return shotY;
-    };
-    this.getWidth = function () {
-        return w;
-    };
-    this.getHeight = function () {
-        return h;
-    };
-    this.update = function () {
-        if (shotY - step > 0) {
-            shotY -= step;
+    }
+    get x() {
+        return this._shotX;
+    }
+    get y () {
+        return this._shotY;
+    }
+    get width() {
+        return this._w;
+    }
+    get height() {
+        return this._h;
+    }
+    update() {
+        if (this._shotY - this._step > 0) {
+            this._shotY -= this._step;
         } else {
-            destroy = true;
+            this._destroy = true;
         }
     };
-    this.canDestroy = function () {
-        return destroy;
-    };
-    this.destroyObject = function () {
-        destroy = true;
-    };
-    this.draw = function () {
-        ctx.drawImage(bulletImg, shotX, shotY, w, h);
-    };
+    canDestroy() {
+        return this._destroy;
+    }
+    destroyObject() {
+        this._destroy = true;
+    }
+    draw() {
+        this._ctx.drawImage(this._bulletImg, this._shotX, this._shotY, this._w, this._h);
+    }
 }

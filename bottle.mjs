@@ -1,46 +1,52 @@
 import { getRndInteger } from "./utils.mjs";
 
-export function Bottle(convas, ctx, bottleImg) {
-    let x = getRndInteger(0, convas.width);
-    let y = 0;
-    let w = 15;
-    let h = 30;
-    let step = 2;
-    let destroy = false; 
-    let points = 1;
+export class Bottle {
+    
+    constructor(canvas, ctx, bottleImg) {
+        this._ctx = ctx;
+        this._canvas = canvas;
+        this._x = getRndInteger(0, canvas.width);
+        this._y = 0;
+        this._w = 15;
+        this._h = 30;
+        this._step = 2;
+        this._destroy = false; 
+        this._points = 1;
+        this._bottleImg = bottleImg;
+    }
 
-    this.getPoints = function() {
-        return points;
-    };
-    this.getX = function() {
-        return x;
-    };
-    this.getY = function() {
-        return y;
-    };
-    this.getWidth = function() {
-        return w;
-    };
-    this.getHeight = function() {
-        return h;
-    };
-    this.increaseSpeed = function() {
-        step++;
-    };
-    this.canDestroy = function() {
-        return destroy;
-    };
-    this.destroyObject = function() {
-        destroy = true;
-    };
-    this.update = function() {
-        if (y + h + step < convas.height) {
-            y += step;
+    get points() {
+        return this._points;
+    }
+    get x() {
+        return this._x;
+    }
+    get y() {
+        return this._y;
+    }
+    get width() {
+        return this._w;
+    }
+    get height() {
+        return this._h;
+    }
+    increaseSpeed() {
+        this._step++;
+    }
+    canDestroy() {
+        return this._destroy;
+    }
+    destroyObject() {
+        this._destroy = true;
+    }
+    update() {
+        if (this._y + this._h + this._step < this._canvas.height) {
+            this._y += this._step;
         } else {
-            destroy = true;
+            this._destroy = true;
         }
-    };
-    this.draw = function() {
-        ctx.drawImage(bottleImg, x, y, w, h);
-    };
+    }
+    draw() {
+        this._ctx.drawImage(this._bottleImg, this._x, this._y, this._w, this._h);
+    }
 }

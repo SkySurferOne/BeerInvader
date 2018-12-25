@@ -6,6 +6,7 @@ let loadGame = function () {
     let images = [
         {name: 'player', src: 'img/greg.gif', img: null},
         {name: 'bottle', src: 'img/bottle.png', img: null},
+        {name: 'strong_bottle', src: 'img/strong_bottle.png', img: null},
         {name: 'bullet', src: 'img/hand.png', img: null},
     ];
     let imgLoaded = 0;

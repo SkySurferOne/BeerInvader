@@ -1,29 +1,34 @@
-export function ScoreBoard(canvas, ctx) {
-    let score = 0;
-    let lifes = 3;
-    let destroy = false;
+export class ScoreBoard {
 
-    this.updateLifes = function(newLifes) {
-        lifes = newLifes;
-    };
-    this.addPoint = function() {
-        score++;
-    };
-    this.addPointCustom = function(points) {
-        score += points;
-    };
-    this.getScore = function() {
-        return score;
-    };
-    this.canDestroy = function () {
-        return destroy;
-    };
-    this.update = function () {
-    };
-    this.draw = function () {
-        ctx.fillStyle = "white";
-        ctx.font = "20px Arial";
-        ctx.fillText(`Lifes: ${lifes}`,10,30);
-        ctx.fillText(`Score: ${score}`,10,60);
-    };
+    constructor(canvas, ctx) {
+        this._ctx = ctx;
+        this._canvas = canvas;
+        this._score = 0;
+        this._lifes = 3;
+        this._destroy = false;
+    }
+
+    updateLifes(newLifes) {
+        this._lifes = newLifes;
+    }
+    addPoint() {
+        this._score++;
+    }
+    addPointCustom(points) {
+        this._score += points;
+    }
+    get score() {
+        return this._score;
+    }
+    canDestroy() {
+        return this._destroy;
+    }
+    update() {
+    }
+    draw() {
+        this._ctx.fillStyle = "white";
+        this._ctx.font = "20px Arial";
+        this._ctx.fillText(`Lifes: ${this._lifes}`,10,30);
+        this._ctx.fillText(`Score: ${this._score}`,10,60);
+    }
 }

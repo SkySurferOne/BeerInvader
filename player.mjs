@@ -1,59 +1,66 @@
 import {Bullet} from "./bullet.mjs";
 import {checkCollision} from "./utils.mjs";
 
-export function Player(canvas, ctx, playerImg, bulletImg) {
-    let w = 30;
-    let h = 70;
-    let x = (canvas.width / 2) - (w / 2);
-    let y = canvas.height - h;
-    let step = 4;
-    let destroy = false;
-    let lifes = 3;
-
-    this.getLifes = function () {
-        return lifes;
-    };
-    this.decreaseLifes = function () {
-        if (lifes > 0) {
-            lifes--;
+export class Player {
+ 
+    constructor(canvas, ctx, playerImg, bulletImg) {
+        this._w = 30;
+        this._h = 70;
+        this._x = (canvas.width / 2) - (this._w / 2);
+        this._y = canvas.height - this._h;
+        this._canvas = canvas;
+        this._ctx = ctx;
+        this._bulletImg = bulletImg;
+        this._playerImg = playerImg;
+        this._step = 4;
+        this._destroy = false;
+        this._lifes = 3;
+        
+    }
+    get lifes() {
+        return this._lifes;
+    }
+    decreaseLifes() {
+        if (this._lifes > 0) {
+            this._lifes--;
         }
 
-        return lifes > 0;
-    };
-    this.collide = function (collidable) {
+        return this._lifes > 0;
+    }
+    collide(collidable) {
         return checkCollision(collidable, this);
+    }
+    get x() {
+        return this._x;
     };
-    this.getX = function () {
-        return x;
+    get y() {
+        return this._y;
     };
-    this.getY = function () {
-        return y;
+    get width() {
+        return this._w;
     };
-    this.getWidth = function () {
-        return w;
-    };
-    this.getHeight = function () {
-        return h;
-    };
-    this.shot = function () {
-        return new Bullet(x + w / 2, y, canvas, ctx, bulletImg);
-    };
-    this.moveRight = function () {
-        if (x + step + w < canvas.width) {
-            x += step;
+    get height() {
+        return this._h;
+    }
+    shot() {
+        return new Bullet(this._x + this._w / 2, this._y, this._canvas, this._ctx, this._bulletImg);
+    }
+    moveRight() {
+        if (this._x + this._step + this._w < this._canvas.width) {
+            this._x += this._step;
         }
     };
-    this.moveLeft = function () {
-        if (x - step > 0) {
-            x -= step;
+    moveLeft() {
+        if (this._x - this._step > 0) {
+            this._x -= this._step;
         }
-    };
-    this.canDestroy = function () {
-        return destroy;
-    };
-    this.update = function () {
-    };
-    this.draw = function () {
-        ctx.drawImage(playerImg, x, y, w, h);
-    };
+    }
+    canDestroy() {
+        return this._destroy;
+    }
+    update() {
+    }
+    draw() {
+        this._ctx.drawImage(this._playerImg, this._x, this._y, this._w, this._h);
+    }
 } 
